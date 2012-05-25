@@ -32,6 +32,9 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dx11.lib")
 
+#include <hash_map>
+#include <vector>
+
 extern BOOL g_bContinue;
 
 // defines
