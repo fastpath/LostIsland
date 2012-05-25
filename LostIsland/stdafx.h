@@ -32,10 +32,13 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dx11.lib")
 
-#include <hash_map>
+#include <memory>
 #include <vector>
+#include <list>
+#include <hash_map>
+#include <string>
 
-extern BOOL g_bContinue;
+extern BOOL g_bContinue; // TODO (nico3000): into GameLogic
 
 // defines
 #define SCREEN_WIDTH 1280
@@ -43,4 +46,12 @@ extern BOOL g_bContinue;
 
 #define SAFE_RELEASE(_resource) { if((_resource) != NULL) { (_resource)->Release(); (_resource) = NULL; } }
 #define SAFE_DELETE(_ptr) { if((_ptr) != NULL) { delete (_ptr); (_ptr) = NULL; } }
-#define RETURN_IF_FAILED(_hr, _errorMsg) { if(FAILED(_hr)) return hr; } // TODO: output message
+#define RETURN_IF_FAILED(_hr, _errorMsg) { if(FAILED(_hr)) return hr; } // TODO (nico3000): output message
+
+using std::tr1::shared_ptr;
+using std::tr1::weak_ptr;
+using std::wstring;
+using std::string;
+using std::vector;
+using std::hash_map;
+using std::list;

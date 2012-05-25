@@ -13,6 +13,7 @@ TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
 BOOL g_bContinue = TRUE;
 
+
 // Forward declarations of functions included in this code module:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
 BOOL				InitInstance(HINSTANCE, int);
@@ -70,7 +71,8 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     Direct3D::destroy();
 
     // memory leak test
-    INT *p = new INT[3];
+    INT *pNaked = new INT[3];
+    shared_ptr<INT> pShared(new INT[4]);
 
 	return (int) msg.wParam;
 }
