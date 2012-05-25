@@ -71,7 +71,8 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     Direct3D::destroy();
 
     // memory leak test
-    INT *p = new INT[3];
+    INT *pNaked = new INT[3];
+    shared_ptr<INT> pShared(new INT[4]);
 
 	return (int) msg.wParam;
 }
