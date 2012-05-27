@@ -75,22 +75,35 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
     Direct3D::Destroy();
 
+    // memory pool performance testing
     MemoryPool pool;
-    pool.init(16*sizeof(INT), 1024*1024, TRUE);
+#define CHUNKS 16384
+    pool.init(16*sizeof(INT), CHUNKS, TRUE);
 
+    INT** ppStoring = new INT*[CHUNKS];
     INT timerID = timer.tick();
-    for(INT i=0; i < 1024*1024; ++i) {
-        INT *pAllocated = (INT*)pool.Alloc();
-        pool.Free(pAllocated);
+    for(INT i=0; i < CHUNKS; ++i)
+    {
+        ppStoring[i] = (INT*)pool.Alloc();
     }
-    std::cout << timer.tock(timerID, TRUE) << std::endl;
+    std::cout << "Memory Pool allocating: " << timer.tock(timerID, FALSE) << "ms" << std::endl;
+    for(INT i=0; i < CHUNKS; ++i)
+    {
+        pool.Free(ppStoring[i]);
+    }
+    std::cout << "Memory Pool allocating + freeing: " << timer.tock(timerID, TRUE) << "ms" << std::endl;
 
     timerID = timer.tick();
-    for(INT i=0; i < 1024*1024; ++i) {
-        INT *pAllocated = new INT[16];
-        delete[] pAllocated;
+    for(INT i=0; i < CHUNKS; ++i)
+    {
+        ppStoring[i] = new INT[16];
     }
-    std::cout << timer.tock(timerID, TRUE) << std::endl;
+    std::cout << "OS memory allocating: " << timer.tock(timerID, FALSE) << "ms" << std::endl;
+    for(INT i=0; i < CHUNKS; ++i) {        
+        delete[] ppStoring[i];
+    }
+    std::cout << "OS memory allocating + freeing: " << timer.tock(timerID, FALSE) << "ms" << std::endl;
+    delete[] ppStoring;
 
     // memory leak test
     INT *pNaked = new INT[3];
