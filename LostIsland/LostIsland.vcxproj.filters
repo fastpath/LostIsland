@@ -57,7 +57,7 @@
     <ClInclude Include="Direct3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MemoryPool.h">
+    <ClInclude Include="GameTimer.h">
       <Filter>Header Files\ApplicationLayer</Filter>
     </ClInclude>
   </ItemGroup>
@@ -71,7 +71,7 @@
     <ClCompile Include="Direct3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MemoryPool.cpp">
+    <ClCompile Include="GameTimer.cpp">
       <Filter>Source Files\ApplicationLayer</Filter>
     </ClCompile>
   </ItemGroup>
