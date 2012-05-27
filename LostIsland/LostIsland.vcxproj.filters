@@ -54,8 +54,11 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files\ApplicationLayer</Filter>
     </ClInclude>
+    <ClInclude Include="DebugConsole.h">
+      <Filter>Header Files\ApplicationLayer</Filter>
+    </ClInclude>
     <ClInclude Include="Direct3D.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\ApplicationLayer</Filter>
     </ClInclude>
     <ClInclude Include="GameTimer.h">
       <Filter>Header Files\ApplicationLayer</Filter>
@@ -71,8 +74,11 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files\ApplicationLayer</Filter>
     </ClCompile>
+    <ClCompile Include="DebugConsole.cpp">
+      <Filter>Source Files\ApplicationLayer</Filter>
+    </ClCompile>
     <ClCompile Include="Direct3D.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\ApplicationLayer</Filter>
     </ClCompile>
     <ClCompile Include="GameTimer.cpp">
       <Filter>Source Files\ApplicationLayer</Filter>
