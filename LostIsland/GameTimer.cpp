@@ -56,7 +56,7 @@ LONG GameTimer::tock(INT CONST& p_iID, BOOL CONST& p_bReset)
         if(p_bReset) {
             m_StopWatches.erase(p_iID);
         }
-        return (LONG)(1e-3 * delta / m_dFrequency);
+        return (LONG)(1e3 * delta / m_dFrequency);
     } else {
         return 0;
     }
