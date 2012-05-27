@@ -5,6 +5,7 @@
 #include "LostIsland.h"
 #include "Direct3D.h"
 #include "MemoryPool.h"
+#include "GameTimer.h"
 
 #define MAX_LOADSTRING 100
 
@@ -49,6 +50,8 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
     hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_LOSTISLAND));
 
+    GameTimer timer;
+    timer.init();
 	// Main message loop:
     XMFLOAT4 clearColor(1, 0, 0, 1);
     while(g_bContinue)
@@ -73,11 +76,21 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     Direct3D::Destroy();
 
     MemoryPool pool;
-    pool.init(16*sizeof(INT), 4, TRUE);
-    for(INT i=0; i < 32; ++i) {
+    pool.init(16*sizeof(INT), 1024*1024, TRUE);
+
+    INT timerID = timer.tick();
+    for(INT i=0; i < 1024*1024; ++i) {
         INT *pAllocated = (INT*)pool.Alloc();
-        if(pAllocated == NULL) return i;
+        pool.Free(pAllocated);
     }
+    std::cout << timer.tock(timerID, TRUE) << std::endl;
+
+    timerID = timer.tick();
+    for(INT i=0; i < 1024*1024; ++i) {
+        INT *pAllocated = new INT[16];
+        delete[] pAllocated;
+    }
+    std::cout << timer.tock(timerID, TRUE) << std::endl;
 
     // memory leak test
     INT *pNaked = new INT[3];
