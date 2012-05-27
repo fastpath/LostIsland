@@ -58,5 +58,5 @@ extern BOOL g_bContinue; // TODO (nico3000): into GameLogic
 
 #define SAFE_RELEASE(_resource){ if((_resource) != NULL) { (_resource)->Release(); (_resource) = NULL; } }
 #define SAFE_DELETE(_ptr) { if((_ptr) != NULL) { delete (_ptr); (_ptr) = NULL; } }
-#define RETURN_IF_FAILED(_hr, _errorMsg) { if(!FAILED(_hr)) { ERROR(_errorMsg); return hr; } } // TODO (nico3000): output message
+#define RETURN_IF_FAILED(_hr, _errorMsg) { if(FAILED(_hr)) { ERROR(_errorMsg); return hr; } } // TODO (nico3000): output message
 #define ERROR(_msg) { PrintError(_msg, __FILE__, __LINE__); }
