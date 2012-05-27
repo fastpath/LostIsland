@@ -19,7 +19,6 @@ BOOL GameTimer::Init(VOID)
     BOOL success = QueryPerformanceFrequency(&frequency);
     m_sysFrequency = (DOUBLE)frequency.QuadPart;
     this->SetFactor(1.0f);
-    //std::cout << frequency.QuadPart << std::endl;
     return success;
 }
 

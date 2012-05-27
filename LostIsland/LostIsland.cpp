@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "LostIsland.h"
 #include "Direct3D.h"
+#include "MemoryPool.h"
 #include "GameTimer.h"
 
 #define MAX_LOADSTRING 100
@@ -69,14 +70,40 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
         }
 
         CONTEXT->ClearRenderTargetView(DEFAULT_RTV, (FLOAT*)&clearColor);
-        SWAP_CHAIN->Present(1, 0);
-
-        LONG delta = timer.next();
-        std::cout << delta << std::endl;
+        SWAP_CHAIN->Present(0, 0);
 	}
 
     Direct3D::Destroy();
 
+    // memory pool performance testing
+    MemoryPool pool;
+#define CHUNKS 16384
+    pool.init(16*sizeof(INT), CHUNKS, TRUE);
+
+    INT** ppStoring = new INT*[CHUNKS];
+    INT timerID = timer.tick();
+    for(INT i=0; i < CHUNKS; ++i)
+    {
+        ppStoring[i] = (INT*)pool.Alloc();
+    }
+    std::cout << "Memory Pool allocating: " << timer.tock(timerID, FALSE) << "ms" << std::endl;
+    for(INT i=0; i < CHUNKS; ++i)
+    {
+        pool.Free(ppStoring[i]);
+    }
+    std::cout << "Memory Pool allocating + freeing: " << timer.tock(timerID, TRUE) << "ms" << std::endl;
+
+    timerID = timer.tick();
+    for(INT i=0; i < CHUNKS; ++i)
+    {
+        ppStoring[i] = new INT[16];
+    }
+    std::cout << "OS memory allocating: " << timer.tock(timerID, FALSE) << "ms" << std::endl;
+    for(INT i=0; i < CHUNKS; ++i) {        
+        delete[] ppStoring[i];
+    }
+    std::cout << "OS memory allocating + freeing: " << timer.tock(timerID, FALSE) << "ms" << std::endl;
+    delete[] ppStoring;
 
     // memory leak test
     INT *pNaked = new INT[3];
