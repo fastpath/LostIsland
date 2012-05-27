@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "LostIsland.h"
 #include "Direct3D.h"
+#include "MemoryPool.h"
 
 #define MAX_LOADSTRING 100
 
@@ -69,6 +70,14 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	}
 
     Direct3D::destroy();
+
+    MemoryPool pool;
+    pool.init(16*sizeof(INT), 4, TRUE);
+    for(INT i=0; i < 32; ++i) {
+        INT *pAllocated = (INT*)pool.Alloc();
+        if(pAllocated == NULL) return i;
+    }
+    
 
     // memory leak test
     INT *pNaked = new INT[3];
