@@ -4,11 +4,11 @@ class MemoryPool
 {
 private:
     UCHAR** m_ppRawMemArray;
-    UINT m_memArraySize;
-    UINT m_chunkSize;
-    UINT m_numChunks;
-    BOOL m_resizable;
-    UCHAR* m_pHead;
+    UINT    m_memArraySize;
+    UINT    m_chunkSize;
+    UINT    m_numChunks;
+    BOOL    m_resizable;
+    UCHAR*  m_pHead;
 
     BOOL growMemory(VOID);
     UCHAR* createNewMemoryBlock(VOID);
