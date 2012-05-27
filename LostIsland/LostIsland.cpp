@@ -13,7 +13,8 @@
 HINSTANCE hInst;								// current instance
 TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
-BOOL g_bContinue = TRUE;
+BOOL g_continue = TRUE;
+GameTimer g_timer;      // TODO move to somewhere else (nico3000)
 
 
 // Forward declarations of functions included in this code module:
@@ -50,11 +51,10 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
     hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_LOSTISLAND));
 
-    GameTimer timer;
-    timer.Init();
+    g_timer.Init();
 	// Main message loop:
     XMFLOAT4 clearColor(1, 0, 0, 1);
-    while(g_bContinue)
+    while(g_continue)
     {
 	    while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 	    {
@@ -65,12 +65,14 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		    }
             if(msg.message == WM_QUIT)
             {
-                g_bContinue = FALSE;
+                g_continue = FALSE;
             }
         }
 
         CONTEXT->ClearRenderTargetView(DEFAULT_RTV, (FLOAT*)&clearColor);
         SWAP_CHAIN->Present(0, 0);
+
+        g_timer.Next();
 	}
 
     Direct3D::Destroy();
