@@ -17,6 +17,7 @@ BOOL GameTimer::init(VOID)
     LARGE_INTEGER frequency;
     BOOL success = QueryPerformanceFrequency(&frequency);
     m_dFrequency = (DOUBLE)frequency.QuadPart;
+    //std::cout << frequency.QuadPart << std::endl;
     return success;
 }
 
@@ -27,7 +28,7 @@ LONG GameTimer::next(VOID)
     QueryPerformanceCounter(&now);
     LONGLONG delta = m_lAccumulator + now.QuadPart - m_lLastStop;
     m_lDeltaMillis = (LONG)(1e3 * (DOUBLE)delta / m_dFrequency);
-    m_lAccumulator += (LONG)(delta - (LONGLONG)((DOUBLE)m_lDeltaMillis * m_dFrequency * 1e3));
+    m_lAccumulator = (LONG)(delta - (LONGLONG)((DOUBLE)m_lDeltaMillis * m_dFrequency * 1e-3));
     m_lLastStop = now.QuadPart;
     return this->getDeltaMillis();
 }
