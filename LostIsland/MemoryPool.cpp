@@ -20,33 +20,33 @@ MemoryPool::~MemoryPool(void)
 }
 
 
-BOOL MemoryPool::init(INT p_chunkSize, INT p_numChunks, BOOL p_resizable)
+BOOL MemoryPool::Init(INT p_chunkSize, INT p_numChunks, BOOL p_resizable)
 {
     m_chunkSize = p_chunkSize;
     m_numChunks = p_numChunks;
     m_resizable = p_resizable;
-    return this->growMemory();
+    return this->GrowMemory();
 }
 
 
-BOOL MemoryPool::growMemory(VOID)
+BOOL MemoryPool::GrowMemory(VOID)
 {
     UCHAR** ppMemArray = new UCHAR*[m_memArraySize+1];
     for(UINT i=0; i < m_memArraySize; ++i)
     {
         ppMemArray[i] = m_ppRawMemArray[i];
     }
-    ppMemArray[m_memArraySize] = this->createNewMemoryBlock();
+    ppMemArray[m_memArraySize] = this->CreateNewMemoryBlock();
 
     if(m_pHead != NULL)
     {
         UCHAR* pCurrent = m_pHead;
-        UCHAR* pNext = this->getNext(pCurrent);
+        UCHAR* pNext = this->GetNext(pCurrent);
         while(pNext != NULL) {
             pCurrent = pNext;
-            pNext = this->getNext(pCurrent);
+            pNext = this->GetNext(pCurrent);
         }
-        this->setNext(pCurrent, ppMemArray[m_memArraySize]);
+        this->SetNext(pCurrent, ppMemArray[m_memArraySize]);
     }
     else
     {
@@ -60,7 +60,7 @@ BOOL MemoryPool::growMemory(VOID)
 }
 
 
-UCHAR* MemoryPool::createNewMemoryBlock(VOID)
+UCHAR* MemoryPool::CreateNewMemoryBlock(VOID)
 {
     size_t blockSize = CHUNK_HEADER_SIZE + m_chunkSize;
     size_t memBlockSize = m_numChunks * blockSize;
@@ -79,14 +79,14 @@ UCHAR* MemoryPool::createNewMemoryBlock(VOID)
 }
 
 
-UCHAR* MemoryPool::getNext(UCHAR* p_pBlock)
+UCHAR* MemoryPool::GetNext(UCHAR* p_pBlock)
 {
     UCHAR** pChunkHeader = (UCHAR**)p_pBlock;
     return pChunkHeader[0];
 }
 
 
-VOID MemoryPool::setNext(UCHAR* p_pBlock, UCHAR* p_pNext)
+VOID MemoryPool::SetNext(UCHAR* p_pBlock, UCHAR* p_pNext)
 {
     UCHAR** pChunkHeader = (UCHAR**)p_pBlock;
     pChunkHeader[0] = p_pNext;
@@ -99,7 +99,7 @@ VOID* MemoryPool::Alloc(VOID)
     {
         if(m_resizable)
         {
-            this->growMemory();
+            this->GrowMemory();
         }
         else
         {
@@ -107,7 +107,7 @@ VOID* MemoryPool::Alloc(VOID)
         }
     }
     UCHAR* pMem = m_pHead;
-    m_pHead = this->getNext(pMem);
+    m_pHead = this->GetNext(pMem);
     return pMem + CHUNK_HEADER_SIZE;
 }
 
@@ -120,5 +120,5 @@ VOID MemoryPool::Free(VOID* p_pMem)
     }
     UCHAR* pOldHead = m_pHead;
     m_pHead = (UCHAR*)p_pMem - CHUNK_HEADER_SIZE;
-    this->setNext(m_pHead, pOldHead);
+    this->SetNext(m_pHead, pOldHead);
 }

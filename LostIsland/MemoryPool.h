@@ -10,16 +10,16 @@ private:
     BOOL    m_resizable;
     UCHAR*  m_pHead;
 
-    BOOL growMemory(VOID);
-    UCHAR* createNewMemoryBlock(VOID);
-    UCHAR* getNext(UCHAR* p_pBlock);
-    VOID setNext(UCHAR* p_pBlock, UCHAR* p_pNext);
+    BOOL GrowMemory(VOID);
+    UCHAR* CreateNewMemoryBlock(VOID);
+    UCHAR* GetNext(UCHAR* p_pBlock);
+    VOID SetNext(UCHAR* p_pBlock, UCHAR* p_pNext);
 
 public:
     MemoryPool(VOID);
     ~MemoryPool(VOID);
 
-    BOOL init(INT p_chunkSize, INT p_numChunks, BOOL p_resizeable);
+    BOOL Init(INT p_chunkSize, INT p_numChunks, BOOL p_resizeable);
     VOID* Alloc(VOID);
     VOID Free(VOID* p_pMem);
 };
