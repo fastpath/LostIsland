@@ -78,7 +78,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
         INT *pAllocated = (INT*)pool.Alloc();
         if(pAllocated == NULL) return i;
     }
-    
 
     // memory leak test
     INT *pNaked = new INT[3];
