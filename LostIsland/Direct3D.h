@@ -1,4 +1,5 @@
 #pragma once
+
 #define SWAP_CHAIN Direct3D::g_pSwapChain
 #define DEVICE Direct3D::g_pDevice
 #define CONTEXT Direct3D::g_pContext
@@ -11,8 +12,8 @@ namespace Direct3D {
     extern ID3D11DeviceContext *g_pContext;
     extern ID3D11RenderTargetView *g_pDefaultRTV;
 
-    HRESULT create(HWND hWnd);
-    VOID destroy(VOID);
-    VOID activateDefaultRTV(VOID);
+    HRESULT Create(HWND hWnd);
+    VOID Destroy(VOID);
+    VOID ActivateDefaultRTV(VOID);
 
 }

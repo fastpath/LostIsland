@@ -37,17 +37,6 @@
 #include <list>
 #include <hash_map>
 #include <string>
-
-extern BOOL g_bContinue; // TODO (nico3000): into GameLogic
-
-// defines
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
-
-#define SAFE_RELEASE(_resource) { if((_resource) != NULL) { (_resource)->Release(); (_resource) = NULL; } }
-#define SAFE_DELETE(_ptr) { if((_ptr) != NULL) { delete (_ptr); (_ptr) = NULL; } }
-#define RETURN_IF_FAILED(_hr, _errorMsg) { if(FAILED(_hr)) return hr; } // TODO (nico3000): output message
-
 using std::tr1::shared_ptr;
 using std::tr1::weak_ptr;
 using std::wstring;
@@ -55,3 +44,19 @@ using std::string;
 using std::vector;
 using std::hash_map;
 using std::list;
+
+#include "DebugConsole.h"
+using DebugConsole::PrintInfo;
+using DebugConsole::PrintWarning;
+using DebugConsole::PrintError;
+
+extern BOOL g_bContinue; // TODO (nico3000): into GameLogic
+
+// defines
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 720
+
+#define SAFE_RELEASE(_resource){ if((_resource) != NULL) { (_resource)->Release(); (_resource) = NULL; } }
+#define SAFE_DELETE(_ptr) { if((_ptr) != NULL) { delete (_ptr); (_ptr) = NULL; } }
+#define RETURN_IF_FAILED(_hr, _errorMsg) { if(!FAILED(_hr)) { ERROR(_errorMsg); return hr; } } // TODO (nico3000): output message
+#define ERROR(_msg) { PrintError(_msg, __FILE__, __LINE__); }

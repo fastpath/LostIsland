@@ -31,6 +31,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
  	// TODO: Place code here.
+    DebugConsole::Open();
 	MSG msg;
 	HACCEL hAccelTable;
 
@@ -68,11 +69,13 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
         SWAP_CHAIN->Present(0, 0);
 	}
 
-    Direct3D::destroy();
+    Direct3D::Destroy();
 
     // memory leak test
     INT *pNaked = new INT[3];
     shared_ptr<INT> pShared(new INT[4]);
+
+    DebugConsole::Close();
 
 	return (int) msg.wParam;
 }
@@ -139,7 +142,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
-   if(FAILED(Direct3D::create(hWnd))) {
+   if(FAILED(Direct3D::Create(hWnd))) {
        return FALSE;
    }
 

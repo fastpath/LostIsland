@@ -144,6 +144,7 @@
     <None Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DebugConsole.h" />
     <ClInclude Include="Direct3D.h" />
     <ClInclude Include="LostIsland.h" />
     <ClInclude Include="Resource.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DebugConsole.cpp" />
     <ClCompile Include="Direct3D.cpp" />
     <ClCompile Include="LostIsland.cpp" />
     <ClCompile Include="stdafx.cpp">
