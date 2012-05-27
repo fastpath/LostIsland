@@ -50,7 +50,7 @@ using DebugConsole::PrintInfo;
 using DebugConsole::PrintWarning;
 using DebugConsole::PrintError;
 
-extern BOOL g_bContinue; // TODO (nico3000): into GameLogic
+extern BOOL g_continue; // TODO (nico3000): into GameLogic
 
 // defines
 #define SCREEN_WIDTH 1280
