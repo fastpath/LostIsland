@@ -15,10 +15,10 @@ public:
     ~GameTimer(VOID);
 
     BOOL init(VOID);
-    LONG CONST& next(VOID);
+    LONG next(VOID);
     INT tick(VOID);
     LONG tock(INT CONST& p_iID, BOOL CONST& p_bReset);
     
-    LONG CONST& getDeltaMillis(VOID) CONST { return m_lDeltaMillis; }
+    LONG getDeltaMillis(VOID) CONST { return m_lDeltaMillis; }
 };
 

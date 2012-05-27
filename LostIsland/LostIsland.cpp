@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "LostIsland.h"
 #include "Direct3D.h"
+#include "GameTimer.h"
 
 #define MAX_LOADSTRING 100
 
@@ -47,6 +48,8 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
     hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_LOSTISLAND));
 
+    GameTimer timer;
+    timer.init();
 	// Main message loop:
     XMFLOAT4 clearColor(1, 0, 0, 1);
     while(g_bContinue)
@@ -65,10 +68,14 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
         }
 
         CONTEXT->ClearRenderTargetView(DEFAULT_RTV, (FLOAT*)&clearColor);
-        SWAP_CHAIN->Present(0, 0);
+        SWAP_CHAIN->Present(1, 0);
+
+        LONG delta = timer.next();
+        std::cout << delta << std::endl;
 	}
 
     Direct3D::destroy();
+
 
     // memory leak test
     INT *pNaked = new INT[3];

@@ -21,13 +21,13 @@ BOOL GameTimer::init(VOID)
 }
 
 
-LONG CONST& GameTimer::next(VOID)
+LONG GameTimer::next(VOID)
 {
     static LARGE_INTEGER now;
     QueryPerformanceCounter(&now);
     LONGLONG delta = m_lAccumulator + now.QuadPart - m_lLastStop;
     m_lDeltaMillis = (LONG)(1e3 * (DOUBLE)delta / m_dFrequency);
-    m_lAccumulator += (LONG)(delta - (LONGLONG)((DOUBLE)m_lDeltaMillis * m_dFrequency * 1e-3));
+    m_lAccumulator += (LONG)(delta - (LONGLONG)((DOUBLE)m_lDeltaMillis * m_dFrequency * 1e3));
     m_lLastStop = now.QuadPart;
     return this->getDeltaMillis();
 }
@@ -51,11 +51,11 @@ LONG GameTimer::tock(INT CONST& p_iID, BOOL CONST& p_bReset)
     if(m_StopWatches.find(p_iID) != m_StopWatches.end()) {
         static LARGE_INTEGER now;
         QueryPerformanceCounter(&now);
-        LONG delta = (LONGLONG)(now.QuadPart - m_StopWatches[p_iID]);
+        DOUBLE delta = (DOUBLE)(now.QuadPart - m_StopWatches[p_iID]);
         if(p_bReset) {
             m_StopWatches.erase(p_iID);
         }
-        return delta;
+        return (LONG)(1e-3 * delta / m_dFrequency);
     } else {
         return 0;
     }
