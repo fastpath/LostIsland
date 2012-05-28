@@ -2,7 +2,7 @@
 #include "MemoryPool.h"
 
 
-const static size_t CHUNK_HEADER_SIZE = sizeof(UCHAR*);
+CONST SIZE_T MemoryPool::CHUNK_HEADER_SIZE = sizeof(UCHAR*);
 
 
 MemoryPool::MemoryPool(VOID):
@@ -123,4 +123,15 @@ VOID MemoryPool::Free(VOID* p_pMem)
     m_pHead = (UCHAR*)p_pMem - CHUNK_HEADER_SIZE;
     this->SetNext(m_pHead, pOldHead);
     --m_allocated;
+}
+
+
+VOID MemoryPool::PrintInfo(VOID) CONST
+{
+
+    std::cout << "chunk size: " << this->GetChunkSize() << " bytes" << std::endl
+              << "system memory used: " << this->GetSystemAllocatedBytes() << " bytes" << std::endl
+              << "pool memory used: " << this->GetPoolAllocatedBytes() << " bytes" << std::endl
+              << "pool memory free: " << this->GetPoolFreeBytes() << " bytes" << std::endl
+              << "usage of allocated system memory: " << (UINT)(100.0 * this->GetPoolUsage()) << "%" << std::endl << std::endl;
 }

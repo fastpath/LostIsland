@@ -1,8 +1,12 @@
 #pragma once
 
+
 class MemoryPool
 {
 private:
+    CONST static SIZE_T CHUNK_HEADER_SIZE;
+
+    UINT    m_allocated;
     UCHAR** m_ppRawMemArray;
     UINT    m_memArraySize;
     UINT    m_chunkSize;
@@ -23,7 +27,11 @@ public:
     BOOL Init(INT p_chunkSize, INT p_numChunks, BOOL p_resizeable);
     VOID* Alloc(VOID);
     VOID Free(VOID* p_pMem);
-
-    UINT GetNumAllocatedChunks(VOID) CONST { return m_allocated; }
+    VOID PrintInfo(VOID) CONST;
+    SIZE_T GetSystemAllocatedBytes(VOID) CONST { return m_memArraySize * m_numChunks * (m_chunkSize + CHUNK_HEADER_SIZE); }
+    SIZE_T GetPoolAllocatedChunks(VOID) CONST { return m_allocated; }
+    SIZE_T GetPoolAllocatedBytes(VOID) CONST { return m_allocated * (m_chunkSize + CHUNK_HEADER_SIZE); }
+    SIZE_T GetPoolFreeBytes(VOID) CONST { return (m_memArraySize * m_numChunks - m_allocated) * (m_chunkSize + CHUNK_HEADER_SIZE); }
+    DOUBLE GetPoolUsage(VOID) CONST { return (DOUBLE)this->GetPoolAllocatedBytes() / (DOUBLE)(this->GetPoolAllocatedBytes() + this->GetPoolFreeBytes()); }
+    UINT GetChunkSize(VOID) CONST { return m_chunkSize; }
 };
-
