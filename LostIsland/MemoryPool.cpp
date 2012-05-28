@@ -79,7 +79,7 @@ UCHAR* MemoryPool::CreateNewMemoryBlock(VOID)
 }
 
 
-UCHAR* MemoryPool::GetNext(UCHAR* p_pBlock)
+UCHAR* MemoryPool::GetNext(UCHAR* p_pBlock) CONST
 {
     UCHAR** pChunkHeader = (UCHAR**)p_pBlock;
     return pChunkHeader[0];
@@ -129,9 +129,32 @@ VOID MemoryPool::Free(VOID* p_pMem)
 VOID MemoryPool::PrintInfo(VOID) CONST
 {
 
-    std::cout << "chunk size: " << this->GetChunkSize() << " bytes" << std::endl
-              << "system memory used: " << this->GetSystemAllocatedBytes() << " bytes" << std::endl
-              << "pool memory used: " << this->GetPoolAllocatedBytes() << " bytes" << std::endl
-              << "pool memory free: " << this->GetPoolFreeBytes() << " bytes" << std::endl
+    std::cout << "chunk size: " << FormatBytes(this->GetChunkSize()) << std::endl
+              << "system memory used: " << FormatBytes(this->GetSystemAllocatedBytes()) << std::endl
+              << "pool memory used: " << FormatBytes(this->GetPoolAllocatedBytes()) << std::endl
+              << "pool memory free: " << FormatBytes(this->GetPoolFreeBytes()) << std::endl
               << "usage of allocated system memory: " << (UINT)(100.0 * this->GetPoolUsage()) << "%" << std::endl << std::endl;
+}
+
+
+#include <sstream>
+string MemoryPool::FormatBytes(SIZE_T p_bytes)
+{
+    INT unit = 0;
+    while(p_bytes > 4096 && unit < 3)
+    {
+        p_bytes /= 1024;
+        ++unit;
+    }
+    std::ostringstream str;
+    str << p_bytes;
+    switch(unit)
+    {
+    case 0: str << " Bytes"; break;
+    case 1: str << " KB"; break;
+    case 2: str << " MB"; break;
+    case 3: str << " GB"; break;
+    default: return "weird"; break;
+    }
+    return str.str();
 }
