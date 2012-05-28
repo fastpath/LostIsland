@@ -16,8 +16,10 @@ private:
 
     BOOL GrowMemory(VOID);
     UCHAR* CreateNewMemoryBlock(VOID);
-    UCHAR* GetNext(UCHAR* p_pBlock);
+    UCHAR* GetNext(UCHAR* p_pBlock) CONST;
     VOID SetNext(UCHAR* p_pBlock, UCHAR* p_pNext);
+
+    static string FormatBytes(SIZE_T p_bytes);
 
 public:
     MemoryPool(VOID);
