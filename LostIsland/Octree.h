@@ -5,16 +5,14 @@
 class Octree
 {
 private:
-    MemoryPool* m_pPool;    // 8 byte
-    INT m_minX;             // 4 byte
-    INT m_minY;             // 4 byte
-    INT m_minZ;             // 4 byte
-    INT m_size;             // 4 byte
-    Octree* m_pSons;        // 8 byte
-    Octree* m_pFather;      // 8 byte
-    USHORT m_value;         // 2 byte
-    CHAR unused[6];         // 6 byte
-                            // --> 48 byte
+    MemoryPool* m_pPool;
+    INT m_minX;
+    INT m_minY;
+    INT m_minZ;
+    INT m_size;
+    Octree* m_pSons;
+    Octree* m_pFather;
+    USHORT m_value;
 
     INT GetSonIndex(INT p_x, INT p_y, INT p_z) CONST;
     BOOL IsIn(INT p_x, INT p_y, INT p_z) CONST;

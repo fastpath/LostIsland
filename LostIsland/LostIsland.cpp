@@ -6,7 +6,7 @@
 #include "Direct3D.h"
 #include "MemoryPool.h"
 #include "GameTimer.h"
-#include "Terrain.h"
+#include "TerrainData.h"
 
 #define MAX_LOADSTRING 100
 
@@ -52,8 +52,12 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
     hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_LOSTISLAND));
 
-    Terrain t;
-    t.Test();
+    TerrainData terrain;
+    BOOL success = terrain.Init(1024);
+    if(success)
+    {
+        terrain.Test();
+    }
     //g_continue = FALSE;
 
     g_timer.Init();
