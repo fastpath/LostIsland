@@ -32,6 +32,7 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dx11.lib")
 
+#include <intsafe.h>
 #include <memory>
 #include <vector>
 #include <list>
@@ -60,3 +61,6 @@ extern BOOL g_continue; // TODO (nico3000): into GameLogic
 #define SAFE_DELETE(_ptr) { if((_ptr) != NULL) { delete (_ptr); (_ptr) = NULL; } }
 #define RETURN_IF_FAILED(_hr, _errorMsg) { if(FAILED(_hr)) { ERROR(_errorMsg); return hr; } } // TODO (nico3000): output message
 #define ERROR(_msg) { PrintError(_msg, __FILE__, __LINE__); }
+#define CLAMP(_val, _min, _max) max(_min, min(_val, _max))
+#define LERP(_val, _min, _max) (((_val) - (_min)) / ((_max) - (_min)))
+#define MIX(_val1, _val2, _t) ((1.0f - _t) * (_val1) + (_t) * (_val2))

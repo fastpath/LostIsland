@@ -17,7 +17,7 @@ Octree::~Octree(VOID)
 }
 
 
-VOID Octree::SetValue(INT p_x, INT p_y, INT p_z, INT p_value)
+VOID Octree::SetValue(INT p_x, INT p_y, INT p_z, SHORT p_value)
 {
     if(m_size == 1)
     {
@@ -58,7 +58,7 @@ VOID Octree::SetValue(INT p_x, INT p_y, INT p_z, INT p_value)
 }
 
 
-USHORT Octree::GetValue(INT p_x, INT p_y, INT p_z) CONST
+SHORT Octree::GetValue(INT p_x, INT p_y, INT p_z) CONST
 {
     if(m_pSons == NULL)
     {
@@ -121,10 +121,10 @@ BOOL Octree::IsIn(INT p_x, INT p_y, INT p_z) CONST
 
 VOID Octree::PrintTree(VOID) CONST
 {
-    for(INT z=0; z < m_size; ++z) 
+    for(INT y=0; y < m_size; ++y) 
     {
-        std::cout << "z=" << (m_minZ + z) << std::endl;
-        for(INT y=0; y < m_size; ++y) 
+        std::cout << "y=" << (m_minY + y) << std::endl;
+        for(INT z=0; z < m_size; ++z) 
         {
             for(INT x=0; x < m_size; ++x) 
             {
@@ -137,7 +137,7 @@ VOID Octree::PrintTree(VOID) CONST
 }
 
 
-UINT Octree::GetNumNodes(VOID) CONST
+ULONG Octree::GetNumNodes(VOID) CONST
 {
     if(m_pSons == NULL)
     {
@@ -157,14 +157,16 @@ UINT Octree::GetNumNodes(VOID) CONST
 }
 
 
-UINT Octree::GetMaxNumNodes(VOID) CONST
+ULONG Octree::GetMaxNumNodes(VOID) CONST
 {
-    UINT n = 0;
-    UINT size = m_size;
-    while(size > 1)
+    ULONG sum = 0;
+    ULONG start = 1;
+    INT size = m_size;
+    while(size > 0)
     {
-        size >>= 1;
-        ++n;
+        sum += start;
+        start *= 8;
+        size /= 2;
     }
-    return ((1 << (3 * (n + 1))) - 1) / 7;
+    return sum;
 }

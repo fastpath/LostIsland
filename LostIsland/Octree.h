@@ -12,7 +12,7 @@ private:
     INT m_size;
     Octree* m_pSons;
     Octree* m_pFather;
-    USHORT m_value;
+    SHORT m_value;
 
     INT GetSonIndex(INT p_x, INT p_y, INT p_z) CONST;
     BOOL IsIn(INT p_x, INT p_y, INT p_z) CONST;
@@ -24,11 +24,11 @@ public:
     Octree(INT p_minX, INT p_minY, INT p_minZ, INT p_size, MemoryPool* p_pPool);
     ~Octree(VOID);
 
-    VOID SetValue(INT p_x, INT p_y, INT p_z, INT p_value);
-    USHORT GetValue(INT p_x, INT p_y, INT p_z) CONST;
+    VOID SetValue(INT p_x, INT p_y, INT p_z, SHORT p_value);
+    SHORT GetValue(INT p_x, INT p_y, INT p_z) CONST;
     VOID PrintTree(VOID) CONST;
-    UINT GetNumNodes(VOID) CONST;
-    UINT GetMaxNumNodes(VOID) CONST;
+    ULONG GetNumNodes(VOID) CONST;
+    ULONG GetMaxNumNodes(VOID) CONST;
 
     INT GetMinX(VOID) CONST { return m_minX; }
     INT GetMinY(VOID) CONST { return m_minY; }
