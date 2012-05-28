@@ -6,6 +6,7 @@
 #include "Direct3D.h"
 #include "MemoryPool.h"
 #include "GameTimer.h"
+#include "Terrain.h"
 
 #define MAX_LOADSTRING 100
 
@@ -51,6 +52,10 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
     hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_LOSTISLAND));
 
+    Terrain t;
+    t.Test();
+    //g_continue = FALSE;
+
     g_timer.Init();
 	// Main message loop:
     XMFLOAT4 clearColor(1, 0, 0, 1);
@@ -78,7 +83,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     Direct3D::Destroy();
 
     // memory leak test
-    INT *pNaked = new INT[3];
+    //INT *pNaked = new INT[3];
     shared_ptr<INT> pShared(new INT[4]);
 
     DebugConsole::Close();
@@ -139,7 +144,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // Store instance handle in our global variable
 
    hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+      CW_USEDEFAULT, 0, SCREEN_WIDTH, SCREEN_HEIGHT, NULL, NULL, hInstance, NULL);
 
    if (!hWnd)
    {

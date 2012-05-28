@@ -66,6 +66,12 @@
     <ClInclude Include="MemoryPool.h">
       <Filter>Header Files\ApplicationLayer</Filter>
     </ClInclude>
+    <ClInclude Include="Octree.h">
+      <Filter>Header Files\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>Header Files\Logic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LostIsland.cpp">
@@ -85,6 +91,12 @@
     </ClCompile>
     <ClCompile Include="MemoryPool.cpp">
       <Filter>Source Files\ApplicationLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Octree.cpp">
+      <Filter>Source Files\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Source Files\Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

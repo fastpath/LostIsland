@@ -9,6 +9,7 @@ private:
     UINT    m_numChunks;
     BOOL    m_resizable;
     UCHAR*  m_pHead;
+    UINT    m_allocated;
 
     BOOL GrowMemory(VOID);
     UCHAR* CreateNewMemoryBlock(VOID);
@@ -22,5 +23,7 @@ public:
     BOOL Init(INT p_chunkSize, INT p_numChunks, BOOL p_resizeable);
     VOID* Alloc(VOID);
     VOID Free(VOID* p_pMem);
+
+    UINT GetNumAllocatedChunks(VOID) CONST { return m_allocated; }
 };
 
