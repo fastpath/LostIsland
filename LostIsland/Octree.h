@@ -5,14 +5,16 @@
 class Octree
 {
 private:
-    MemoryPool* m_pPool;
-    INT m_minX;
-    INT m_minY;
-    INT m_minZ;
-    INT m_size;
-    Octree* m_pSons;
-    Octree* m_pFather;
-    USHORT m_value;
+    MemoryPool* m_pPool;    // 8 byte
+    INT m_minX;             // 4 byte
+    INT m_minY;             // 4 byte
+    INT m_minZ;             // 4 byte
+    INT m_size;             // 4 byte
+    Octree* m_pSons;        // 8 byte
+    Octree* m_pFather;      // 8 byte
+    USHORT m_value;         // 2 byte
+    CHAR unused[6];         // 6 byte
+                            // --> 48 byte
 
     INT GetSonIndex(INT p_x, INT p_y, INT p_z) CONST;
     BOOL IsIn(INT p_x, INT p_y, INT p_z) CONST;
@@ -27,6 +29,8 @@ public:
     VOID SetValue(INT p_x, INT p_y, INT p_z, INT p_value);
     USHORT GetValue(INT p_x, INT p_y, INT p_z) CONST;
     VOID PrintTree(VOID) CONST;
+    UINT GetNumNodes(VOID) CONST;
+    UINT GetMaxNumNodes(VOID) CONST;
 
     INT GetMinX(VOID) CONST { return m_minX; }
     INT GetMinY(VOID) CONST { return m_minY; }
@@ -34,6 +38,9 @@ public:
     INT GetMaxX(VOID) CONST { return m_minX + m_size; }
     INT GetMaxY(VOID) CONST { return m_minY + m_size; }
     INT GetMaxZ(VOID) CONST { return m_minZ + m_size; }
+    VOID PrintUsage(VOID) CONST { std::cout << "tree usage: " << this->GetNumNodes() << " of " << this->GetMaxNumNodes() << " nodes (" << (UINT)(100.0 * (DOUBLE)this->GetNumNodes() / (DOUBLE)this->GetMaxNumNodes()) << "%)" << std::endl << std::endl;
+
+ }
 
 };
 

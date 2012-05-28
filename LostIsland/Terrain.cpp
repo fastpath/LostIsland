@@ -16,13 +16,16 @@ Terrain::~Terrain(void)
 VOID Terrain::Test(VOID)
 {
     MemoryPool pool;
-    pool.Init(8*sizeof(Octree), 1024, TRUE);
+    pool.Init(8*sizeof(Octree), 1024*1024, TRUE);
+    pool.PrintInfo();
 
-#define TREE_SIZE 8
+#define TREE_SIZE 256
     Octree tree(0, 0, 0, TREE_SIZE, &pool);
     tree.SetValue(0, 0, 0, 1);
     tree.SetValue(4, 3, 2, 2);
-    tree.PrintTree();
+
+    pool.PrintInfo();
+    tree.PrintUsage();
 
     for(INT x=0; x < TREE_SIZE; ++x) 
     {
@@ -30,9 +33,10 @@ VOID Terrain::Test(VOID)
         {
             for(INT z=0; z+y+x < TREE_SIZE; ++z) 
             {
-                tree.SetValue(x, y, z, 3);
+                tree.SetValue(x, y, z, x+y+z);
             }
         }
     }
-    tree.PrintTree();
+    pool.PrintInfo();
+    tree.PrintUsage();
 }

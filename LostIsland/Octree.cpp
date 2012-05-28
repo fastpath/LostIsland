@@ -134,5 +134,37 @@ VOID Octree::PrintTree(VOID) CONST
         }
         std::cout << std::endl;
     }
-    std::cout << "no-leaf tree nodes: " << m_pPool->GetNumAllocatedChunks() << std::endl;
+}
+
+
+UINT Octree::GetNumNodes(VOID) CONST
+{
+    if(m_pSons == NULL)
+    {
+        return 1;
+    }
+    else 
+    {
+        return 1 + m_pSons[0].GetNumNodes()
+                 + m_pSons[1].GetNumNodes()
+                 + m_pSons[2].GetNumNodes()
+                 + m_pSons[3].GetNumNodes()
+                 + m_pSons[4].GetNumNodes()
+                 + m_pSons[5].GetNumNodes()
+                 + m_pSons[6].GetNumNodes()
+                 + m_pSons[7].GetNumNodes();
+    }
+}
+
+
+UINT Octree::GetMaxNumNodes(VOID) CONST
+{
+    UINT n = 0;
+    UINT size = m_size;
+    while(size > 1)
+    {
+        size >>= 1;
+        ++n;
+    }
+    return ((1 << (3 * (n + 1))) - 1) / 7;
 }
