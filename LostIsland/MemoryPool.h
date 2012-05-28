@@ -6,6 +6,7 @@ class MemoryPool
 private:
     CONST static SIZE_T CHUNK_HEADER_SIZE;
 
+    UINT    m_allocated;
     UCHAR** m_ppRawMemArray;
     UINT    m_memArraySize;
     UINT    m_chunkSize;

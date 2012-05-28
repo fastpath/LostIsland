@@ -6,7 +6,7 @@ CONST SIZE_T MemoryPool::CHUNK_HEADER_SIZE = sizeof(UCHAR*);
 
 
 MemoryPool::MemoryPool(VOID):
-m_ppRawMemArray(NULL), m_memArraySize(0), m_pHead(NULL)
+m_ppRawMemArray(NULL), m_memArraySize(0), m_pHead(NULL), m_allocated(0)
 {
 }
 
@@ -106,6 +106,7 @@ VOID* MemoryPool::Alloc(VOID)
             return NULL;
         }
     }
+    ++m_allocated;
     UCHAR* pMem = m_pHead;
     m_pHead = this->GetNext(pMem);
     return pMem + CHUNK_HEADER_SIZE;
@@ -121,6 +122,7 @@ VOID MemoryPool::Free(VOID* p_pMem)
     UCHAR* pOldHead = m_pHead;
     m_pHead = (UCHAR*)p_pMem - CHUNK_HEADER_SIZE;
     this->SetNext(m_pHead, pOldHead);
+    --m_allocated;
 }
 
 
