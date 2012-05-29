@@ -15,9 +15,11 @@ GameTimer::~GameTimer(VOID)
 
 BOOL GameTimer::Init(VOID)
 {
-    LARGE_INTEGER frequency;
+    LARGE_INTEGER frequency, now;
     BOOL success = QueryPerformanceFrequency(&frequency);
     m_sysFrequency = (DOUBLE)frequency.QuadPart;
+    QueryPerformanceCounter(&now);
+    m_lastStop = now.QuadPart;
     this->SetFactor(1.0f);
     return success;
 }
@@ -54,52 +56,71 @@ VOID GameTimer::Next(VOID)
 }
 
 
-INT GameTimer::Tick(TickOption p_option) 
+INT GameTimer::Tick(INT id, TickOption p_option) 
 {
-    StopWatchMap* pTarget = NULL;
-    switch(p_option) {
-    case REALTIME: pTarget = &m_realtime; break;
-    case GAMETIME: pTarget = &m_gametime; break;
+    switch(m_types[id] = p_option)
+    {
+    case REALTIME: m_realtime[id] = 0; break;
+    case GAMETIME: m_gametime[id] = 0; break;
+    case IMMEDIATE:
+        static LARGE_INTEGER now;
+        QueryPerformanceCounter(&now);
+        m_immediateStops[id] = now.QuadPart;
+        break;
     }
-    INT id;
-    do {
-        id = rand();
-    } while(this->GetTarget(id) != NULL);
-    (*pTarget)[id] = 0;
     return id;
 }
 
 
 LONG GameTimer::Tock(INT p_id, TockOption p_option) 
 {
-    StopWatchMap* pTarget = this->GetTarget(p_id);
-    if(pTarget != NULL) {
-        LONG val = (*pTarget)[p_id];
+    LONG time = 0;
+    if(m_types.find(p_id) != m_types.end())
+    {
+        TickOption tick = m_types[p_id];
+        StopWatchMap* pTarget = NULL;
+        switch(tick)
+        {
+        case GAMETIME: pTarget = &m_gametime; break;
+        case REALTIME: pTarget = &m_realtime; break;
+        }
+        if(pTarget == NULL)
+        {
+            static LARGE_INTEGER now;
+            QueryPerformanceCounter(&now);
+            time = (LONG)((DOUBLE)(now.QuadPart - m_immediateStops[p_id]) / (1e-3 * m_sysFrequency));
+        }
+        else
+        {
+            time = (*pTarget)[p_id];
+        }
+
         switch(p_option)
         {
-        case ERASE: pTarget->erase(p_id); break;
-        case RESET: (*pTarget)[p_id] = 0; break;
+        case ERASE:
+            if(pTarget == NULL)
+            {
+                m_immediateStops.erase(p_id);
+            }
+            else
+            {
+                pTarget->erase(p_id);
+            }
+            break;
+        case RESET: this->Tick(p_id, tick); break;
         case KEEPRUNNING: break;
         }
-        return val;
-    } else {
-        return 0;
     }
+    return time;
 }
 
 
-StopWatchMap* GameTimer::GetTarget(INT p_id)
+INT GameTimer::GetTickTockID(VOID) CONST
 {
-    if(m_realtime.find(p_id) != m_realtime.end())
+    INT id = rand();
+    while(m_types.find(id) != m_types.end())
     {
-        return &m_realtime;
+        id = rand();
     }
-    else if(m_gametime.find(p_id) != m_gametime.end())
-    {
-        return &m_gametime;
-    }
-    else 
-    {
-        return NULL;
-    }
+    return id;
 }
