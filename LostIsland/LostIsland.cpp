@@ -36,6 +36,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
  	// TODO: Place code here.
     DebugConsole::Open();
+    g_timer.Init();
 	MSG msg;
 	HACCEL hAccelTable;
 
@@ -53,14 +54,13 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_LOSTISLAND));
 
     TerrainData terrain;
-    BOOL success = terrain.Init(1024);
+    BOOL success = terrain.Init(256);
     if(success)
     {
         terrain.Test();
     }
     //g_continue = FALSE;
 
-    g_timer.Init();
 	// Main message loop:
     XMFLOAT4 clearColor(1, 0, 0, 1);
     while(g_continue)

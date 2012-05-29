@@ -1,8 +1,6 @@
 #include "StdAfx.h"
 #include "TerrainData.h"
 
-#include "Octree.h"
-
 TerrainData::TerrainData(VOID):
     m_pData(NULL), m_pPool(NULL), m_size(0)
 {
@@ -51,6 +49,12 @@ VOID TerrainData::Test(VOID)
     m_pPool->PrintInfo();
     m_pData->PrintUsage();
 
+    ULONG valuesSet = 0;
+    ULONG target = m_size * m_size * m_size;
+    ULONG percentage = 0;
+
+    INT id = g_timer.Tick(REALTIME);
+
     FLOAT worldX = m_minX;
     FLOAT dx = (m_maxX - m_minX) / (FLOAT)m_size;
     for(INT x=0; x < m_size; ++x) 
@@ -65,12 +69,21 @@ VOID TerrainData::Test(VOID)
             {
                 FLOAT density = worldY - sin(worldX)*cos(worldZ);
                 this->SetDensity(worldX, worldY, worldZ, density);
+                //std::cout << ((ULONG)100 * ++valuesSet / target) << std::endl;
+                if(((ULONG)100 * ++valuesSet / target) == percentage)
+                {
+                    std::cout << percentage << "%...";
+                    percentage += 10;
+                }
                 worldZ += dz;
             }
             worldY += dy;
         }
         worldX += dx;
     }
+    std::cout << std::endl;
+
+    std::cout << (g_timer.Tock(id, ERASE)) << " sec" << std::endl;
 
     m_pPool->PrintInfo();
     m_pData->PrintUsage();

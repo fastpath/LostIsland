@@ -50,8 +50,10 @@ using std::list;
 using DebugConsole::PrintInfo;
 using DebugConsole::PrintWarning;
 using DebugConsole::PrintError;
+#include "GameTimer.h"
 
 extern BOOL g_continue; // TODO (nico3000): into GameLogic
+extern GameTimer g_timer;
 
 // defines
 #define SCREEN_WIDTH 1280
