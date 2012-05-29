@@ -40,20 +40,8 @@ BOOL TerrainData::Init(INT p_size)
 
 VOID TerrainData::Test(VOID)
 {
-    m_pPool->PrintInfo();
-    m_pData->PrintUsage();
-
-    m_pData->SetValue(0, 0, 0, 1);
-    m_pData->SetValue(4, 3, 2, 2);
-
-    m_pPool->PrintInfo();
-    m_pData->PrintUsage();
-
-    ULONG valuesSet = 0;
-    ULONG target = m_size * m_size * m_size;
-    ULONG percentage = 0;
-
-    INT id = g_timer.Tick(REALTIME);
+    std::cout << "generating " << m_size << "^3 octree..." << std::endl;
+    INT id = g_timer.Tick(IMMEDIATE);
 
     FLOAT worldX = m_minX;
     FLOAT dx = (m_maxX - m_minX) / (FLOAT)m_size;
@@ -69,21 +57,14 @@ VOID TerrainData::Test(VOID)
             {
                 FLOAT density = worldY - sin(worldX)*cos(worldZ);
                 this->SetDensity(worldX, worldY, worldZ, density);
-                //std::cout << ((ULONG)100 * ++valuesSet / target) << std::endl;
-                if(((ULONG)100 * ++valuesSet / target) == percentage)
-                {
-                    std::cout << percentage << "%...";
-                    percentage += 10;
-                }
                 worldZ += dz;
             }
             worldY += dy;
         }
         worldX += dx;
     }
-    std::cout << std::endl;
 
-    std::cout << (g_timer.Tock(id, ERASE)) << " sec" << std::endl;
+    std::cout << "generation took " << (1e-3 * (DOUBLE)g_timer.Tock(id, ERASE)) << " secs" << std::endl << std::endl;
 
     m_pPool->PrintInfo();
     m_pData->PrintUsage();
