@@ -146,6 +146,8 @@
   <ItemGroup>
     <ClInclude Include="DebugConsole.h" />
     <ClInclude Include="Direct3D.h" />
+    <ClInclude Include="FastDelegate.h" />
+    <ClInclude Include="FastDelegateBind.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="LostIsland.h" />
     <ClInclude Include="MemoryPool.h" />
@@ -157,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DebugConsole.cpp" />
+    <ClCompile Include="FastDelegateDemo.cpp" />
     <ClCompile Include="Direct3D.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="LostIsland.cpp" />

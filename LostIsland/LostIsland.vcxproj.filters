@@ -72,6 +72,12 @@
     <ClInclude Include="Terrain.h">
       <Filter>Header Files\Logic</Filter>
     </ClInclude>
+    <ClInclude Include="FastDelegate.h">
+      <Filter>Header Files\ApplicationLayer</Filter>
+    </ClInclude>
+    <ClInclude Include="FastDelegateBind.h">
+      <Filter>Header Files\ApplicationLayer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LostIsland.cpp">
@@ -97,6 +103,9 @@
     </ClCompile>
     <ClCompile Include="Terrain.cpp">
       <Filter>Source Files\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="FastDelegateDemo.cpp">
+      <Filter>Source Files\ApplicationLayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
