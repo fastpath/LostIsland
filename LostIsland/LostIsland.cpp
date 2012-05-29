@@ -58,6 +58,8 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	g_eventManager.TriggerEvent(g);
 	g_eventManager.Update(0);
 
+	EventPtr t(new Event(EventType::TEST_EVENT));
+	g_eventManager.QueueEvent(t);
 	g_eventManager.Update(0);
 	//------------
 
