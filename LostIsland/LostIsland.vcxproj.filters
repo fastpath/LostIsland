@@ -31,6 +31,12 @@
     <Filter Include="Source Files\Logic">
       <UniqueIdentifier>{5a60f1ed-6868-4129-b144-d9144c0fc7ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Logic\event">
+      <UniqueIdentifier>{d0f766b3-ee2c-4400-ac97-ccbc6738ccb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Logic\event">
+      <UniqueIdentifier>{1388c475-6e7d-4c6d-94ed-e8ea822e3505}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -78,6 +84,15 @@
     <ClInclude Include="FastDelegateBind.h">
       <Filter>Header Files\ApplicationLayer</Filter>
     </ClInclude>
+    <ClInclude Include="_Event.h">
+      <Filter>Header Files\Logic\event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Header Files\Logic\event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventType.h">
+      <Filter>Header Files\Logic\event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LostIsland.cpp">
@@ -104,8 +119,11 @@
     <ClCompile Include="Terrain.cpp">
       <Filter>Source Files\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="FastDelegateDemo.cpp">
-      <Filter>Source Files\ApplicationLayer</Filter>
+    <ClCompile Include="_Event.cpp">
+      <Filter>Source Files\Logic\event</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Source Files\Logic\event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
