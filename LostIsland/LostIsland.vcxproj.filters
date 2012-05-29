@@ -84,13 +84,13 @@
     <ClInclude Include="FastDelegateBind.h">
       <Filter>Header Files\ApplicationLayer</Filter>
     </ClInclude>
-    <ClInclude Include="_Event.h">
-      <Filter>Header Files\Logic\event</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Header Files\Logic\event</Filter>
     </ClInclude>
     <ClInclude Include="EventType.h">
+      <Filter>Header Files\Logic\event</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
       <Filter>Header Files\Logic\event</Filter>
     </ClInclude>
   </ItemGroup>
@@ -119,10 +119,10 @@
     <ClCompile Include="Terrain.cpp">
       <Filter>Source Files\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="_Event.cpp">
+    <ClCompile Include="EventManager.cpp">
       <Filter>Source Files\Logic\event</Filter>
     </ClCompile>
-    <ClCompile Include="EventManager.cpp">
+    <ClCompile Include="Event.cpp">
       <Filter>Source Files\Logic\event</Filter>
     </ClCompile>
   </ItemGroup>

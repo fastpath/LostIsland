@@ -147,7 +147,7 @@
     <ClInclude Include="DebugConsole.h" />
     <ClInclude Include="Direct3D.h" />
     <ClInclude Include="EventType.h" />
-    <ClInclude Include="_Event.h" />
+    <ClInclude Include="Event.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FastDelegate.h" />
     <ClInclude Include="FastDelegateBind.h" />
@@ -163,7 +163,7 @@
   <ItemGroup>
     <ClCompile Include="DebugConsole.cpp" />
     <ClCompile Include="Direct3D.cpp" />
-    <ClCompile Include="_Event.cpp" />
+    <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="LostIsland.cpp" />

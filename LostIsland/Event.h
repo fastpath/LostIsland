@@ -1,12 +1,12 @@
 #pragma once
 #include "EventType.h"
-class _Event
+class Event
 {
 private:
 	EventType m_type;
 public:
-	_Event(EventType type);
+	Event(EventType type);
 	EventType GetType() { return m_type; }
-	~_Event(VOID);
+	~Event(VOID);
 };
 

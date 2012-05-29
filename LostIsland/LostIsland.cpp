@@ -7,6 +7,7 @@
 #include "MemoryPool.h"
 #include "GameTimer.h"
 #include "Terrain.h"
+#include "EventManager.h"
 
 #define MAX_LOADSTRING 100
 
@@ -16,7 +17,13 @@ TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
 BOOL g_continue = TRUE;
 GameTimer g_timer;      // TODO move to somewhere else (nico3000)
+EventManager g_eventManager;
 
+VOID test(EventPtr e) {
+	std::cout << "Type=";
+	std::cout << e->GetType();
+	std::cout << "\n";
+}
 
 // Forward declarations of functions included in this code module:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
@@ -39,6 +46,21 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	MSG msg;
 	HACCEL hAccelTable;
 
+	//Eventmanager testing
+	g_eventManager.AddListener(&test, EventType::PRINT_EVENT);
+
+	EventListenerDelegate del = MakeDelegate(&g_eventManager, &EventManager::MemberTest);
+	g_eventManager.AddListener(del, EventType::TEST_EVENT);
+
+	EventPtr g(new Event(EventType::PRINT_EVENT));
+
+	g_eventManager.QueueEvent(g);
+	g_eventManager.TriggerEvent(g);
+	g_eventManager.Update(0);
+
+	g_eventManager.Update(0);
+	//------------
+
 	// Initialize global strings
 	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
 	LoadString(hInstance, IDC_LOSTISLAND, szWindowClass, MAX_LOADSTRING);
@@ -52,8 +74,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
     hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_LOSTISLAND));
 
-    Terrain t;
-    t.Test();
     //g_continue = FALSE;
 
     g_timer.Init();
