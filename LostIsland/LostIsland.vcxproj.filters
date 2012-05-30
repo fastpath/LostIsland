@@ -31,17 +31,17 @@
     <Filter Include="Source Files\Logic">
       <UniqueIdentifier>{5a60f1ed-6868-4129-b144-d9144c0fc7ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Logic\event">
-      <UniqueIdentifier>{d0f766b3-ee2c-4400-ac97-ccbc6738ccb2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Logic\event">
+    <Filter Include="Header Files\Logic\events">
       <UniqueIdentifier>{1388c475-6e7d-4c6d-94ed-e8ea822e3505}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Logic\properties">
-      <UniqueIdentifier>{146d8840-1249-495a-925b-5ba176647419}</UniqueIdentifier>
+    <Filter Include="Source Files\Logic\events">
+      <UniqueIdentifier>{d0f766b3-ee2c-4400-ac97-ccbc6738ccb2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Logic\properties">
-      <UniqueIdentifier>{77952cc9-941c-4919-83c4-a3e12d1c0dd9}</UniqueIdentifier>
+    <Filter Include="Header Files\Logic\events\eventImps">
+      <UniqueIdentifier>{ea1922e8-7b3e-449a-9c96-ce5b814dd8c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Logic\events\eventImps">
+      <UniqueIdentifier>{e1c26a1d-73e8-492b-8d12-2eca8e4a2a28}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -91,19 +91,16 @@
       <Filter>Header Files\ApplicationLayer</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
-      <Filter>Header Files\Logic\event</Filter>
+      <Filter>Header Files\Logic\events</Filter>
     </ClInclude>
-    <ClInclude Include="EventType.h">
-      <Filter>Header Files\Logic\event</Filter>
+    <ClInclude Include="IEvent.h">
+      <Filter>Header Files\Logic\events</Filter>
     </ClInclude>
-    <ClInclude Include="Event.h">
-      <Filter>Header Files\Logic\event</Filter>
+    <ClInclude Include="CreateActorEvent.h">
+      <Filter>Header Files\Logic\events\eventImps</Filter>
     </ClInclude>
-    <ClInclude Include="Property.h">
-      <Filter>Header Files\Logic\properties</Filter>
-    </ClInclude>
-    <ClInclude Include="Properties.h">
-      <Filter>Header Files\Logic\properties</Filter>
+    <ClInclude Include="BaseEvent.h">
+      <Filter>Header Files\Logic\events\eventImps</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -132,16 +129,13 @@
       <Filter>Source Files\Logic</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
-      <Filter>Source Files\Logic\event</Filter>
+      <Filter>Source Files\Logic\events</Filter>
     </ClCompile>
-    <ClCompile Include="Event.cpp">
-      <Filter>Source Files\Logic\event</Filter>
+    <ClCompile Include="CreateActorEvent.cpp">
+      <Filter>Source Files\Logic\events\eventImps</Filter>
     </ClCompile>
-    <ClCompile Include="Property.cpp">
-      <Filter>Source Files\Logic\properties</Filter>
-    </ClCompile>
-    <ClCompile Include="Properties.cpp">
-      <Filter>Source Files\Logic\properties</Filter>
+    <ClCompile Include="BaseEvent.cpp">
+      <Filter>Source Files\Logic\events\eventImps</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -52,6 +52,8 @@ using DebugConsole::PrintError;
 #include "FastDelegate.h"
 #include "FastDelegateBind.h"
 
+typedef unsigned long EventType;
+
 extern BOOL g_continue; // TODO (nico3000): into GameLogic
 
 // defines

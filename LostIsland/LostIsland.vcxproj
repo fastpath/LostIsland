@@ -144,10 +144,11 @@
     <None Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseEvent.h" />
+    <ClInclude Include="CreateActorEvent.h" />
     <ClInclude Include="DebugConsole.h" />
     <ClInclude Include="Direct3D.h" />
-    <ClInclude Include="EventType.h" />
-    <ClInclude Include="Event.h" />
+    <ClInclude Include="IEvent.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="FastDelegate.h" />
     <ClInclude Include="FastDelegateBind.h" />
@@ -155,24 +156,21 @@
     <ClInclude Include="LostIsland.h" />
     <ClInclude Include="MemoryPool.h" />
     <ClInclude Include="Octree.h" />
-    <ClInclude Include="Properties.h" />
-    <ClInclude Include="Property.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Terrain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseEvent.cpp" />
+    <ClCompile Include="CreateActorEvent.cpp" />
     <ClCompile Include="DebugConsole.cpp" />
     <ClCompile Include="Direct3D.cpp" />
-    <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="LostIsland.cpp" />
     <ClCompile Include="MemoryPool.cpp" />
     <ClCompile Include="Octree.cpp" />
-    <ClCompile Include="Properties.cpp" />
-    <ClCompile Include="Property.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

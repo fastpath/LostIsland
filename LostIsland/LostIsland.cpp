@@ -8,10 +8,11 @@
 #include "GameTimer.h"
 #include "Terrain.h"
 #include "EventManager.h"
-#include "Properties.h"
+#include "CreateActorEvent.h"
+#include "BaseEvent.h"
 
 #define MAX_LOADSTRING 100
-
+using namespace events;
 // Global Variables:
 HINSTANCE hInst;								// current instance
 TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
@@ -21,9 +22,15 @@ GameTimer g_timer;      // TODO move to somewhere else (nico3000)
 EventManager g_eventManager;
 
 VOID test(EventPtr e) {
-	std::cout << "Type=";
-	std::cout << e->GetType();
-	std::cout << "\n";
+    std::shared_ptr<BaseEvent> cae = std::static_pointer_cast<BaseEvent>(e);
+    std::shared_ptr<string> a = std::static_pointer_cast<string>(cae->m_data);
+	std::cout << "m_string=";
+    std::cout << cae->m_string;
+    std::cout << "\nm_data=";
+    std::cout << a->c_str();
+    std::cout << "\nm_type=";
+    std::cout << cae->m_type;
+	std::cout << "\n\n";
 }
 
 // Forward declarations of functions included in this code module:
@@ -48,21 +55,19 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     HACCEL hAccelTable;
 
 	//Eventmanager testing
-	g_eventManager.AddListener(&test, EventType::PRINT_EVENT);
+    g_eventManager.AddListener(&test, BaseEvent::TYPE);
+    g_eventManager.AddListener(&test, CreateActorEvent::TYPE);
 
 	EventListenerDelegate del = fastdelegate::MakeDelegate(&g_eventManager, &EventManager::MemberTest);
-	g_eventManager.AddListener(del, EventType::TEST_EVENT);
-
-	EventPtr g(new Event(EventType::PRINT_EVENT));
-
-    g_eventManager.QueueEvent(g);
-    g_eventManager.TriggerEvent(g);
+    BaseEvent* cae = new BaseEvent(CreateActorEvent::TYPE);
+    cae->m_string = string("super_actor");
+    cae->m_data = std::shared_ptr<string>(new string("asd"));
+    EventPtr e(cae);
+    
+    g_eventManager.QueueEvent(e);
+    g_eventManager.TriggerEvent(e);
     g_eventManager.Update(0);
-    Properties::Init();
-    //std::cout << Properties::ACTOR_ID.GetName();
-    EventPtr t(new Event(EventType::TEST_EVENT));
-    g_eventManager.QueueEvent(t);
-    g_eventManager.Update(0);
+
 	//------------
 
 	// Initialize global strings
