@@ -8,6 +8,7 @@
 #include "GameTimer.h"
 #include "Terrain.h"
 #include "EventManager.h"
+#include "Properties.h"
 
 #define MAX_LOADSTRING 100
 
@@ -44,23 +45,24 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
  	// TODO: Place code here.
     DebugConsole::Open();
 	MSG msg;
-	HACCEL hAccelTable;
+    HACCEL hAccelTable;
 
 	//Eventmanager testing
 	g_eventManager.AddListener(&test, EventType::PRINT_EVENT);
 
-	EventListenerDelegate del = MakeDelegate(&g_eventManager, &EventManager::MemberTest);
+	EventListenerDelegate del = fastdelegate::MakeDelegate(&g_eventManager, &EventManager::MemberTest);
 	g_eventManager.AddListener(del, EventType::TEST_EVENT);
 
 	EventPtr g(new Event(EventType::PRINT_EVENT));
 
-	g_eventManager.QueueEvent(g);
-	g_eventManager.TriggerEvent(g);
-	g_eventManager.Update(0);
-
-	EventPtr t(new Event(EventType::TEST_EVENT));
-	g_eventManager.QueueEvent(t);
-	g_eventManager.Update(0);
+    g_eventManager.QueueEvent(g);
+    g_eventManager.TriggerEvent(g);
+    g_eventManager.Update(0);
+    Properties::Init();
+    //std::cout << Properties::ACTOR_ID.GetName();
+    EventPtr t(new Event(EventType::TEST_EVENT));
+    g_eventManager.QueueEvent(t);
+    g_eventManager.Update(0);
 	//------------
 
 	// Initialize global strings

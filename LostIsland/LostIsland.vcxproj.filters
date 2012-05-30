@@ -37,6 +37,12 @@
     <Filter Include="Header Files\Logic\event">
       <UniqueIdentifier>{1388c475-6e7d-4c6d-94ed-e8ea822e3505}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Logic\properties">
+      <UniqueIdentifier>{146d8840-1249-495a-925b-5ba176647419}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Logic\properties">
+      <UniqueIdentifier>{77952cc9-941c-4919-83c4-a3e12d1c0dd9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -93,6 +99,12 @@
     <ClInclude Include="Event.h">
       <Filter>Header Files\Logic\event</Filter>
     </ClInclude>
+    <ClInclude Include="Property.h">
+      <Filter>Header Files\Logic\properties</Filter>
+    </ClInclude>
+    <ClInclude Include="Properties.h">
+      <Filter>Header Files\Logic\properties</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LostIsland.cpp">
@@ -124,6 +136,12 @@
     </ClCompile>
     <ClCompile Include="Event.cpp">
       <Filter>Source Files\Logic\event</Filter>
+    </ClCompile>
+    <ClCompile Include="Property.cpp">
+      <Filter>Source Files\Logic\properties</Filter>
+    </ClCompile>
+    <ClCompile Include="Properties.cpp">
+      <Filter>Source Files\Logic\properties</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

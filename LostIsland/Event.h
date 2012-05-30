@@ -3,10 +3,12 @@
 class Event
 {
 private:
-	EventType m_type;
+    enum EventType m_type;
+
 public:
-	Event(EventType type);
-	EventType GetType() { return m_type; }
-	~Event(VOID);
+    Event(enum EventType type);
+    ~Event(VOID);
+
+    enum EventType GetType() { return m_type; }
 };
 

@@ -2,7 +2,7 @@
 #include "Event.h"
 
 
-Event::Event(EventType type) : m_type(type)
+Event::Event(enum EventType type) : m_type(type)
 {
 }
 
