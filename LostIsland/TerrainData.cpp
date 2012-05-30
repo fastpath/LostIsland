@@ -1,5 +1,7 @@
 #include "StdAfx.h"
 #include "TerrainData.h"
+#include <iostream>
+#include <fstream>
 
 TerrainData::TerrainData(VOID):
     m_pData(NULL), m_pPool(NULL), m_size(0)
@@ -69,6 +71,28 @@ VOID TerrainData::Test(VOID)
     m_pPool->PrintInfo();
     m_pData->PrintUsage();
 
+    using std::fstream;
+    using std::ios;
+    fstream file;
+    file.open("test.nico", fstream::in | fstream::out | fstream::app);
+    if(file.is_open())
+    {
+        std::cout << "open" << std::endl;
+        CHAR pData[4] = { 'A', 'B', 'C', 'D' };
+        file.write(pData, 4);
+        file.seekg(2, ios::beg);
+        CHAR c;
+        file.read(&c, 1);
+        std::cout << c << std::endl;
+        file.close();
+    }
+    else
+    {
+        std::cout << "NOT open" << std::endl;
+    }
+    
+
+    g_continue = FALSE;
     //m_pData->PrintTree();
 }
 
