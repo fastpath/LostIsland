@@ -2,22 +2,24 @@
 #include "Octree.h"
 
 
-Octree::Octree(INT p_minX, INT p_minY, INT p_minZ, INT p_size, MemoryPool* p_pPool):
-m_pFather(NULL), m_pSons(NULL), m_pPool(p_pPool), m_value(DEFAULT_VALUE)
+MemoryPool Octree::sm_pool;
+
+
+Octree::Octree(VOID):
+m_pFather(NULL), m_pSons(NULL), m_value(DEFAULT_VALUE), m_minX(0), m_minY(0), m_minZ(0), m_size(0)
 {
-    this->SetDimension(p_minX, p_minY, p_minZ, p_size);
 }
 
 
 Octree::~Octree(VOID)
 {
     if(m_pSons != NULL) {
-        m_pPool->Free(m_pSons);
+        sm_pool.Free(m_pSons);
     }
 }
 
 
-VOID Octree::SetValue(INT p_x, INT p_y, INT p_z, SHORT p_value)
+VOID Octree::SetValue(INT p_x, INT p_y, INT p_z, CHAR p_value)
 {
     if(m_size == 1)
     {
@@ -29,14 +31,10 @@ VOID Octree::SetValue(INT p_x, INT p_y, INT p_z, SHORT p_value)
         {
             if(p_value != m_value)
             {
-                m_pSons = (Octree*)m_pPool->Alloc();
+                m_pSons = (Octree*)sm_pool.Alloc();
                 for(INT i=0; i < 8; ++i)
                 {
-                    m_pSons[i].Init(this);
-                    m_pSons[i].SetDimension(m_minX + (i % 2) * m_size/2,
-                                            m_minY + ((i >> 1) % 2) * m_size/2,
-                                            m_minZ + ((i >> 2) % 2) * m_size/2,
-                                            m_size/2);
+                    m_pSons[i].Init(this, i);
                 }
             }
             else 
@@ -58,7 +56,7 @@ VOID Octree::SetValue(INT p_x, INT p_y, INT p_z, SHORT p_value)
 }
 
 
-SHORT Octree::GetValue(INT p_x, INT p_y, INT p_z) CONST
+CHAR Octree::GetValue(INT p_x, INT p_y, INT p_z) CONST
 {
     if(m_pSons == NULL)
     {
@@ -87,7 +85,7 @@ VOID Octree::CheckSons(VOID)
         }
         if(collapsable)
         {
-            m_pPool->Free(m_pSons);
+            sm_pool.Free(m_pSons);
             m_pSons = NULL;
         }
     }
@@ -100,7 +98,9 @@ INT Octree::GetSonIndex(INT p_x, INT p_y, INT p_z) CONST
 #ifdef _DEBUG
     if(!this->IsIn(p_x, p_y, p_z))
     {
-        ERROR("called GetSonIndex() but position is not in tree");
+        //ERROR("called GetSonIndex() but position is not in tree");
+        std::cerr << "error1: " << m_minX << " " << m_minY << " " << m_minZ << " " << m_size << std::endl;
+        std::cerr << "error2: " << p_x << " " << p_y << " " << p_z << " " << std::endl;
         return -1;
     }
 #endif
@@ -121,6 +121,7 @@ BOOL Octree::IsIn(INT p_x, INT p_y, INT p_z) CONST
 
 VOID Octree::PrintTree(VOID) CONST
 {
+    std::cout << "Octree size: " << m_size << std::endl;
     for(INT y=0; y < m_size; ++y) 
     {
         std::cout << "y=" << (m_minY + y) << std::endl;
@@ -128,7 +129,7 @@ VOID Octree::PrintTree(VOID) CONST
         {
             for(INT x=0; x < m_size; ++x) 
             {
-                std::cout << this->GetValue(m_minX + x, m_minY + y, m_minZ + z) << " ";
+                std::cout << (INT)this->GetValue(m_minX + x, m_minY + y, m_minZ + z) << " ";
             }
             std::cout << std::endl;
         }
@@ -169,4 +170,145 @@ ULONG Octree::GetMaxNumNodes(VOID) CONST
         size /= 2;
     }
     return sum;
+}
+
+
+VOID Octree::Init(INT p_size)
+{
+    m_size = p_size;
+    m_minX = m_minY = m_minZ = 0;
+    m_value = DEFAULT_VALUE;
+    m_flags = 0;
+    m_pFather = NULL;
+    m_pSons = NULL;
+}
+
+
+VOID Octree::Init(Octree *p_pFather, INT p_sonIndex)
+{
+    //std::cout << p_pFather->m_minX << " " << p_pFather->m_minY << " " << p_pFather->m_minZ << " " << p_pFather->m_size << std::endl;
+    m_pFather = p_pFather;
+    m_size = p_pFather->m_size/2;
+    m_value = p_pFather->m_value;
+    m_minX = p_pFather->m_minX + (p_sonIndex % 2) * m_size;
+    m_minY = p_pFather->m_minY + ((p_sonIndex >> 1) % 2) * m_size;
+    m_minZ = p_pFather->m_minZ + ((p_sonIndex >> 2) % 2) * m_size;
+    m_pSons = NULL;
+    
+}
+
+
+BOOL Octree::Init(std::fstream& p_stream)
+{
+    using std::fstream;
+    using std::ios;
+
+    INT size;
+    p_stream.seekg(0, ios::beg);
+    p_stream.read((CHAR*)&size, sizeof(INT));
+    
+    this->Init(size);
+    BOOL result;
+#ifdef _DEBUG
+    std::cout << "loading octree..." << std::endl;
+    INT id = g_timer.Tick(IMMEDIATE);
+    result = this->InitIntern(p_stream);
+    std::cout << "loading took " << (1e-3 * (DOUBLE)g_timer.Tock(id, ERASE)) << " secs" << std::endl;
+#else
+    result = this->InitIntern(p_stream);
+#endif
+    return result;
+}
+
+
+#define NODE_FILE_NODESIZE (2 * sizeof(CHAR) + 8 * sizeof(INT))
+#define NODE_FILE_OFFSET sizeof(INT)
+
+
+BOOL Octree::InitIntern(std::fstream& p_stream)
+{
+    using std::fstream;
+    using std::ios;
+    using std::streampos;
+    if(!p_stream.good())
+    {
+        //return FALSE;
+    }
+
+    INT pSons[8];
+    p_stream.read(&m_value, sizeof(CHAR));
+    p_stream.read(&m_flags, sizeof(CHAR));
+    p_stream.read((CHAR*)pSons, 8 * sizeof(INT));
+
+    BOOL error = FALSE;
+    if(pSons[0] != 0)
+    {
+        m_pSons = (Octree*)sm_pool.Alloc();
+        for(INT i=0; i < 8 && !error; ++i)
+        {
+            m_pSons[i].Init(this, i);
+            p_stream.seekg(NODE_FILE_OFFSET + pSons[i] * NODE_FILE_NODESIZE, ios::beg);
+            error = !m_pSons[i].InitIntern(p_stream);
+        }
+    }
+    if(error)
+    {
+        std::cout << "ERROR!!!" << std::endl;
+        sm_pool.Free(m_pSons);
+        m_pSons = NULL;
+        return FALSE;
+    }
+    else
+    {
+        return TRUE;
+    }
+}
+
+
+static INT g_currentNode = 0;
+
+
+VOID Octree::Save(std::fstream& p_stream) CONST
+{
+    g_currentNode = 0;
+
+    using std::fstream;
+    using std::ios;
+
+    p_stream.seekp(0, ios::beg);
+    p_stream.write((CHAR*)&m_size, sizeof(INT));
+
+#ifdef _DEBUG
+    std::cout << "saving octree..." << std::endl;
+    INT id = g_timer.Tick(IMMEDIATE);
+    this->SaveIntern(p_stream);
+    std::cout << "saving took " << (1e-3 * (DOUBLE)g_timer.Tock(id, ERASE)) << " secs" << std::endl;
+#else
+    this->SaveIntern(p_stream);
+#endif
+    
+}
+
+
+VOID Octree::SaveIntern(std::fstream& p_stream) CONST
+{
+    INT thisNodeNr = g_currentNode++;
+
+    INT pSonPointers[8] = { 0,0,0,0,0,0,0,0 };
+    p_stream.seekp(NODE_FILE_OFFSET + thisNodeNr * NODE_FILE_NODESIZE, std::ios::beg);
+    p_stream.write(&m_value, sizeof(CHAR));
+    p_stream.write(&m_flags, sizeof(CHAR));
+    p_stream.write((CHAR*)pSonPointers, 8 * sizeof(INT));
+    
+    if(m_pSons != NULL)
+    {
+        for(INT i=0; i < 8; ++i)
+        {
+            pSonPointers[i] = g_currentNode;
+            m_pSons[i].SaveIntern(p_stream);
+        }
+
+        p_stream.seekp(NODE_FILE_OFFSET + thisNodeNr * NODE_FILE_NODESIZE + 2 * sizeof(CHAR), std::ios::beg);
+        p_stream.write((CHAR*)pSonPointers, 8 * sizeof(INT));
+    }
 }

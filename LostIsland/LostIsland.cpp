@@ -54,7 +54,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_LOSTISLAND));
 
     TerrainData terrain;
-    BOOL success = terrain.Init(128);
+    BOOL success = terrain.Init(8);
     if(success)
     {
         terrain.Test();
