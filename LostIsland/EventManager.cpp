@@ -2,7 +2,7 @@
 #include "EventManager.h"
 
 using namespace events;
-EventManager::EventManager()
+EventManager::EventManager() : m_currentQueue(0)
 {
 }
 
@@ -20,16 +20,31 @@ VOID EventManager::TriggerEvent(CONST EventPtr& e) {
     }
 }
 
-VOID EventManager::Update(LONG maxMIllis) {
-    while(!this->m_queue.empty())
+INT EventManager::Update(LONG maxMillis) {
+    int oldQueue = this->m_currentQueue;
+    this->m_currentQueue = (this->m_currentQueue + 1) % 2;
+    int max = GetTickCount() + maxMillis;
+    this->m_queue[this->m_currentQueue].clear();
+    while(!this->m_queue[oldQueue].empty())
     {
-        this->TriggerEvent(this->m_queue.front());
-        this->m_queue.pop_front();
+        this->TriggerEvent(this->m_queue[oldQueue].front());
+        this->m_queue[oldQueue].pop_front();
+        if((maxMillis != MAX_TIME) && (GetTickCount() > max))
+        {
+            while(!this->m_queue[oldQueue].empty())
+            {
+                EventPtr e = this->m_queue[oldQueue].front();
+                this->m_queue[oldQueue].pop_front();
+                this->m_queue[m_currentQueue].push_front(e);
+            }
+            break;
+        }
     }
+    return this->m_queue[m_currentQueue].size();
 }
 
 VOID EventManager::QueueEvent(CONST EventPtr& e) {
-    this->m_queue.push_back(e);
+    this->m_queue[m_currentQueue].push_back(e);
 }
 
 VOID EventManager::AddListener(CONST EventListenerDelegate& listener, EventType type) {

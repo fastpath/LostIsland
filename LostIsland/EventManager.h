@@ -1,6 +1,7 @@
 #pragma once
 #include "IEvent.h"
 namespace events {
+    #define MAX_TIME INFINITE
     typedef std::shared_ptr<IEvent> EventPtr;
     typedef fastdelegate::FastDelegate1<EventPtr> EventListenerDelegate;
     typedef std::hash_map<EventType, std::list<EventListenerDelegate>*>::const_iterator ListenerMapIter;
@@ -13,8 +14,9 @@ namespace events {
         static std::shared_ptr<EventManager> g_global;
 
         std::list< std::list<EventListenerDelegate>* > m_listenerList;
-        std::list<EventPtr> m_queue;
+        std::list<EventPtr> m_queue[2];
         std::hash_map<EventType, std::list<EventListenerDelegate>*> m_listenerMap;
+        INT m_currentQueue;
 
     public:
         static std::shared_ptr<EventManager> GetGlobal() { return g_global; }
@@ -27,7 +29,7 @@ namespace events {
         VOID RemoveListener(CONST EventListenerDelegate& listener, EventType type);
         VOID TriggerEvent(CONST EventPtr& e);
         VOID QueueEvent(CONST EventPtr& e);
-        VOID Update(LONG maxMillis);
+        INT Update(LONG maxMillis);
         VOID MemberTest(EventPtr e);
     };
 };

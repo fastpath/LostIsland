@@ -24,13 +24,14 @@ EventManager g_eventManager;
 VOID test(EventPtr e) {
     std::shared_ptr<BaseEvent> cae = std::static_pointer_cast<BaseEvent>(e);
     std::shared_ptr<string> a = std::static_pointer_cast<string>(cae->m_data);
+    /*
 	std::cout << "m_string=";
     std::cout << cae->m_string;
     std::cout << "\nm_data=";
     std::cout << a->c_str();
     std::cout << "\nm_type=";
     std::cout << cae->m_type;
-	std::cout << "\n\n";
+	std::cout << "\n\n"; */
 }
 
 // Forward declarations of functions included in this code module:
@@ -63,10 +64,13 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     cae->m_string = string("super_actor");
     cae->m_data = std::shared_ptr<string>(new string("asd"));
     EventPtr e(cae);
-    
-    g_eventManager.QueueEvent(e);
-    g_eventManager.TriggerEvent(e);
-    g_eventManager.Update(0);
+    //g_eventManager.TriggerEvent(e);
+    //g_eventManager.Update(10);
+
+    for(int i = 0; i < 10000; ++i) 
+    {
+        g_eventManager.QueueEvent(e);
+    }
 
 	//------------
 
@@ -105,7 +109,11 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
         CONTEXT->ClearRenderTargetView(DEFAULT_RTV, (FLOAT*)&clearColor);
         SWAP_CHAIN->Present(0, 0);
-
+        INT c = g_eventManager.Update(1);
+        if(c != 0) 
+        {
+            std::cout << c << std::endl;
+        }
         g_timer.Next();
 	}
 
