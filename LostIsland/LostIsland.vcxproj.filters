@@ -37,12 +37,6 @@
     <Filter Include="Source Files\Logic\events">
       <UniqueIdentifier>{d0f766b3-ee2c-4400-ac97-ccbc6738ccb2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Logic\events\eventImps">
-      <UniqueIdentifier>{ea1922e8-7b3e-449a-9c96-ce5b814dd8c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Logic\events\eventImps">
-      <UniqueIdentifier>{e1c26a1d-73e8-492b-8d12-2eca8e4a2a28}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -93,14 +87,14 @@
     <ClInclude Include="EventManager.h">
       <Filter>Header Files\Logic\events</Filter>
     </ClInclude>
-    <ClInclude Include="IEvent.h">
+    <ClInclude Include="Event.h">
       <Filter>Header Files\Logic\events</Filter>
     </ClInclude>
-    <ClInclude Include="CreateActorEvent.h">
-      <Filter>Header Files\Logic\events\eventImps</Filter>
+    <ClInclude Include="Property.h">
+      <Filter>Header Files\Logic\events</Filter>
     </ClInclude>
-    <ClInclude Include="BaseEvent.h">
-      <Filter>Header Files\Logic\events\eventImps</Filter>
+    <ClInclude Include="IProperty.h">
+      <Filter>Header Files\Logic\events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -131,11 +125,11 @@
     <ClCompile Include="EventManager.cpp">
       <Filter>Source Files\Logic\events</Filter>
     </ClCompile>
-    <ClCompile Include="CreateActorEvent.cpp">
-      <Filter>Source Files\Logic\events\eventImps</Filter>
+    <ClCompile Include="Event.cpp">
+      <Filter>Source Files\Logic\events</Filter>
     </ClCompile>
-    <ClCompile Include="BaseEvent.cpp">
-      <Filter>Source Files\Logic\events\eventImps</Filter>
+    <ClCompile Include="IProperty.cpp">
+      <Filter>Source Files\Logic\events</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

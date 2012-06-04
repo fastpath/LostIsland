@@ -8,8 +8,7 @@
 #include "GameTimer.h"
 #include "Terrain.h"
 #include "EventManager.h"
-#include "CreateActorEvent.h"
-#include "BaseEvent.h"
+#include "Event.h"
 
 #define MAX_LOADSTRING 100
 using namespace events;
@@ -22,8 +21,7 @@ GameTimer g_timer;      // TODO move to somewhere else (nico3000)
 EventManager g_eventManager;
 
 VOID test(EventPtr e) {
-    std::shared_ptr<BaseEvent> cae = std::static_pointer_cast<BaseEvent>(e);
-    std::shared_ptr<string> a = std::static_pointer_cast<string>(cae->m_data);
+    std::shared_ptr<Event> cae = std::static_pointer_cast<Event>(e);
     /*
 	std::cout << "m_string=";
     std::cout << cae->m_string;
@@ -56,13 +54,12 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     HACCEL hAccelTable;
 
 	//Eventmanager testing
-    g_eventManager.AddListener(&test, BaseEvent::TYPE);
-    g_eventManager.AddListener(&test, CreateActorEvent::TYPE);
+    g_eventManager.AddListener(&test, TEST_EVENT);
 
 	EventListenerDelegate del = fastdelegate::MakeDelegate(&g_eventManager, &EventManager::MemberTest);
-    BaseEvent* cae = new BaseEvent(CreateActorEvent::TYPE);
-    cae->m_string = string("super_actor");
-    cae->m_data = std::shared_ptr<string>(new string("asd"));
+    Event* cae = new Event(TEST_EVENT);
+    cae->SetProperty(NAME, shared_ptr<string>(new std::string("hi")));
+    std::cout << cae->GetProperty<string>(NAME);
     EventPtr e(cae);
     //g_eventManager.TriggerEvent(e);
     //g_eventManager.Update(10);

@@ -1,8 +1,8 @@
 #pragma once
-#include "IEvent.h"
+#include "Event.h"
 namespace events {
     #define MAX_TIME INFINITE
-    typedef std::shared_ptr<IEvent> EventPtr;
+    typedef std::shared_ptr<Event> EventPtr;
     typedef fastdelegate::FastDelegate1<EventPtr> EventListenerDelegate;
     typedef std::hash_map<EventType, std::list<EventListenerDelegate>*>::const_iterator ListenerMapIter;
     typedef std::list<EventListenerDelegate>::iterator DelegateIter;

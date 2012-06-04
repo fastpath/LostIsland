@@ -7,7 +7,7 @@ EventManager::EventManager() : m_currentQueue(0)
 }
 
 VOID EventManager::TriggerEvent(CONST EventPtr& e) {
-    EventType type = e->VGetType();
+    EventType type = e->GetType();
     ListenerMapIter start = this->m_listenerMap.find(type);
     if(start != this->m_listenerMap.end()) 
     {
@@ -78,7 +78,7 @@ VOID EventManager::RemoveListener(CONST EventListenerDelegate& listener, EventTy
 
 VOID EventManager::MemberTest(EventPtr e) {
     std::cout << "MemberTest";
-    std::cout << e->VGetType();
+    std::cout << e->GetType();
     std::cout << "\n";
 }
 
