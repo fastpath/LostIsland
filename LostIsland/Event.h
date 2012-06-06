@@ -34,10 +34,8 @@ namespace events {
             {
                 return NULL;
             }
-//            std::shared_ptr<Property<T>> p = std::static_pointer_cast<std::shared_ptr<Property<T>>>(it->second);
-            IProperty* p = it->second.get();
-            Property<T>* t = std::static_pointer_cast<Property<T>>(p);
-            return NULL;//p->GetValue();
+            std::shared_ptr<Property<T>> p = std::static_pointer_cast<std::shared_ptr<Property<T>>>(it->second);
+            return p->GetValue();
         }
 
         template<class T> VOID SetProperty(CONST PropertyType type,  CONST std::shared_ptr<T> value) {
