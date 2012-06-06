@@ -57,9 +57,12 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     g_eventManager.AddListener(&test, TEST_EVENT);
 
 	EventListenerDelegate del = fastdelegate::MakeDelegate(&g_eventManager, &EventManager::MemberTest);
+
     Event* cae = new Event(TEST_EVENT);
-    cae->SetProperty(NAME, std::shared_ptr<string>(new std::string("hi")));
-    std::cout << cae->GetProperty<string>(NAME) << "\n";
+    cae->SetProperty(props::NAME, std::shared_ptr<string>(new std::string("hi")));
+    std::shared_ptr<std::string> s = cae->GetProperty<string>(props::NAME);
+
+    std::cout << s->c_str()<< "\n";
     EventPtr e(cae);
     //g_eventManager.TriggerEvent(e);
     //g_eventManager.Update(10);

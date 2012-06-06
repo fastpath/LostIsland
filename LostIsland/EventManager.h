@@ -29,7 +29,7 @@ namespace events {
         VOID RemoveListener(CONST EventListenerDelegate& listener, EventType type);
         VOID TriggerEvent(CONST EventPtr& e);
         VOID QueueEvent(CONST EventPtr& e);
-        INT Update(LONG maxMillis);
+        size_t Update(LONG maxMillis);
         VOID MemberTest(EventPtr e);
     };
 };

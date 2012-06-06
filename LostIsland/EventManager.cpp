@@ -20,10 +20,10 @@ VOID EventManager::TriggerEvent(CONST EventPtr& e) {
     }
 }
 
-INT EventManager::Update(LONG maxMillis) {
+size_t EventManager::Update(LONG maxMillis) {
     int oldQueue = this->m_currentQueue;
     this->m_currentQueue = (this->m_currentQueue + 1) % 2;
-    int max = GetTickCount() + maxMillis;
+    UINT max = GetTickCount() + maxMillis;
     this->m_queue[this->m_currentQueue].clear();
     while(!this->m_queue[oldQueue].empty())
     {

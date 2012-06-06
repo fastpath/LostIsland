@@ -90,11 +90,14 @@
     <ClInclude Include="Event.h">
       <Filter>Header Files\Logic\events</Filter>
     </ClInclude>
-    <ClInclude Include="Property.h">
-      <Filter>Header Files\Logic\events</Filter>
-    </ClInclude>
     <ClInclude Include="IProperty.h">
-      <Filter>Header Files\Logic\events</Filter>
+      <Filter>Header Files\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Property.h">
+      <Filter>Header Files\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Properties.h">
+      <Filter>Header Files\Logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -126,9 +129,6 @@
       <Filter>Source Files\Logic\events</Filter>
     </ClCompile>
     <ClCompile Include="Event.cpp">
-      <Filter>Source Files\Logic\events</Filter>
-    </ClCompile>
-    <ClCompile Include="IProperty.cpp">
       <Filter>Source Files\Logic\events</Filter>
     </ClCompile>
   </ItemGroup>

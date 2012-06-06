@@ -1,6 +1,6 @@
 #pragma once
 #include "IProperty.h"
-namespace events {
+namespace props {
     enum PropertyType {
         NAME
     };

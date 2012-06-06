@@ -1,10 +1,10 @@
 #pragma once
-namespace events {
+namespace props {
     class IProperty
     {
     public:
-        IProperty(void);
-        ~IProperty(void);
+        IProperty(void) {};
+        ~IProperty(void) {};
     };
 };
 
